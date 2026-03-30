@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Not Found | Glide Vault Logistics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Barlow:wght@400&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080C12;--orange:#FF6B35;--white:#F0F4FF;--gray:#6B7A99;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:2rem;}
+    h1{font-family:'Barlow Condensed',sans-serif;font-size:5rem;font-weight:800;color:var(--orange);margin-bottom:1rem;}
+    p{color:var(--gray);margin-bottom:0.5rem;}
+    .code{font-family:monospace;background:rgba(255,107,53,0.1);padding:0.3rem 0.8rem;border-radius:4px;color:var(--orange);}
+    a{display:inline-block;margin-top:2rem;background:var(--orange);color:white;padding:0.8rem 2rem;border-radius:6px;text-decoration:none;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;}
+    a:hover{background:#ff8555;}
+  </style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <div>
+    <h1>NOT FOUND</h1>
+    <p>No shipment found for tracking number:</p>
+    <p class="code">{{ tracking_number }}</p>
+    <p style="margin-top:1rem;">Please check the number and try again.</p>
+    <a href="/track">Try Again</a>
+  </div>
+</body>
+</html>

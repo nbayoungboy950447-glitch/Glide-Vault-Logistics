@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login | Glide Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Space+Mono:wght@400&family=Barlow:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080C12;--surface:#0F1520;--card:#141C2B;--blue:#1B6EF3;--orange:#FF6B35;--white:#F0F4FF;--gray:#6B7A99;--border:rgba(27,110,243,0.15);}
+    ,::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+    .login-box{width:100%;max-width:420px;}
+    .logo{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:2px;text-align:center;margin-bottom:0.5rem;}
+    .logo span{color:var(--orange);}
+    .subtitle{color:var(--gray);text-align:center;font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;margin-bottom:2.5rem;}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2.5rem;}
+    .card h2{font-family:'Barlow Condensed',sans-serif;font-size:1.8rem;font-weight:800;margin-bottom:0.3rem;}
+    .card .hint{color:var(--gray);font-size:0.85rem;margin-bottom:2rem;}
+    .flash{padding:0.8rem 1rem;border-radius:6px;margin-bottom:1rem;font-size:0.85rem;background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);color:#FF6B6B;}
+    label{display:block;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:0.5rem;}
+    input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.9rem 1rem;color:var(--white);font-family:'Space Mono',monospace;font-size:1rem;outline:none;transition:border-color 0.3s;margin-bottom:1.5rem;}
+    input:focus{border-color:var(--orange);}
+    button{width:100%;background:var(--orange);color:white;border:none;padding:1rem;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:2px;cursor:pointer;transition:background 0.3s;}
+    button:hover{background:#ff8555;}
+    .back{display:block;text-align:center;margin-top:1.5rem;color:var(--gray);font-size:0.85rem;text-decoration:none;}
+    .back:hover{color:var(--white);}
+  </style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <div class="login-box">
+    <div class="logo">GLIDE<span>VAULT</span></div>
+    <div class="subtitle">Admin Portal</div>
+    <div class="card">
+      <h2>SECURE LOGIN</h2>
+      <p class="hint">Authorized personnel only</p>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for cat, msg in messages %}
+          <div class="flash">{{ msg }}</div>
+        {% endfor %}
+      {% endwith %}
+      <form method="POST">
+        <label>Admin Password</label>
+        <input type="password" name="password" placeholder="••••••••" autofocus required/>
+        <button type="submit">ENTER PORTAL →</button>
+      </form>
+    </div>
+    <a href="/" class="back">← Back to Website</a>
+  </div>
+</body>
+</html>

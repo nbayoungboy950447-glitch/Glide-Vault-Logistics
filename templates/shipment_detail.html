@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ shipment.tracking_number }} | Glide Vault Logistics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#F5F6FA;color:#1A2540;font-family:'Inter',sans-serif;}
+    nav{background:#0B1E3D;padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .nav-logo{font-family:'Inter',sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:3px;color:white;text-decoration:none;}
+    .nav-logo span{color:#FF6B35;}
+    .nav-right a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.85rem;margin-left:1.5rem;letter-spacing:1px;}
+    .nav-right a:hover{color:white;}
+
+    /* HERO BAND */
+    .hero-band{background:#0B1E3D;padding:1.5rem 2rem 3.5rem;}
+    .hero-inner{max-width:900px;margin:0 auto;}
+    .tracking-id-label{color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:0.5rem;}
+    .tracking-id-value{font-family:'Space Mono',monospace;font-size:1.4rem;color:white;font-weight:700;letter-spacing:3px;margin-bottom:1rem;}
+    .status-row{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;}
+    .status-label{color:rgba(255,255,255,0.5);font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;}
+    .status-value{font-size:1rem;font-weight:600;color:white;display:flex;align-items:center;gap:0.6rem;}
+    .live-dot{width:10px;height:10px;border-radius:50%;background:#22C55E;display:inline-block;animation:blink 1.5s infinite;}
+    .live-dot.hold{background:#FF6B35;}
+    .live-dot.delivered{background:#22C55E;animation:none;}
+    .live-dot.customs{background:#EF4444;}
+    @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(34,197,94,0.4);}50%{opacity:0.7;box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+
+    /* CONTAINER */
+    .container{max-width:900px;margin:-1.8rem auto 0;padding:0 0 4rem;position:relative;z-index:1;}
+
+    /* ALERT BANNERS */
+    .alert{display:flex;align-items:center;gap:0.8rem;border-radius:8px;padding:0.9rem 1.2rem;margin-bottom:1.2rem;font-size:0.9rem;font-weight:500;}
+    .alert-green{background:#F0FDF4;border:1px solid #BBF7D0;color:#16A34A;}
+    .alert-red{background:#FEF2F2;border:1px solid #FECACA;color:#DC2626;}
+    .alert-orange{background:#FFF7ED;border:1px solid #FED7AA;color:#EA580C;}
+    .alert-dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex-shrink:0;}
+
+    /* ROUTE CARD */
+    .route-card{background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.06);padding:1.5rem 2rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:2rem;}
+    .route-point{flex:1;}
+    .rp-label{font-size:0.65rem;letter-spacing:2px;text-transform:uppercase;color:#9CA3AF;margin-bottom:0.4rem;}
+    .rp-city{font-size:1.6rem;font-weight:800;color:#0B1E3D;line-height:1.1;}
+    .rp-name{font-size:0.82rem;color:#6B7280;margin-top:0.3rem;}
+    .route-center{display:flex;flex-direction:column;align-items:center;gap:0.4rem;flex-shrink:0;}
+    .route-type-badge{background:#F3F4F6;border:1px solid #E5E7EB;border-radius:50px;padding:0.3rem 0.8rem;font-size:0.75rem;font-weight:600;color:#374151;letter-spacing:1px;}
+    .route-line-wrap{display:flex;align-items:center;gap:0;}
+    .route-dot{width:8px;height:8px;border-radius:50%;background:#0B1E3D;flex-shrink:0;}
+    .route-line{width:80px;height:2px;background:linear-gradient(to right,#0B1E3D,#FF6B35);}
+
+    /* MAP */
+    
+    .map-card{overflow:hidden;border-radius:12px;margin-left:-1.5rem;margin-right:-1.5rem;}.map-card-header{padding:1rem 1.5rem;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;gap:0.6rem;}
+    .map-card-header h2{font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#374151;}
+    
+    
+    
+    
+    
+    
+    
+    
+    @keyframes mapblink{0%,100%{box-shadow:0 0 0 4px rgba(34,197,94,0.3);}50%{box-shadow:0 0 0 10px rgba(34,197,94,0.1);}}
+    
+    
+    
+    
+
+    /* SECTION CARD */
+    .section-card{background:white;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:1.2rem;overflow:visible;}
+    .section-header{padding:1rem 1.5rem;border-bottom:1px solid #F3F4F6;display:flex;align-items:center;gap:0.8rem;}
+    .section-header h2{font-size:0.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1D4ED8;}
+    .sh-icon{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;}
+
+    /* TIMELINE */
+    .timeline-body{padding:1.5rem;}
+    .timeline-stop{margin-bottom:1.8rem;}
+    .timeline-stop:last-child{margin-bottom:0;}
+    .stop-header{display:flex;align-items:center;gap:0.9rem;margin-bottom:0.8rem;}
+    .stop-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:white;flex-shrink:0;}
+    .stop-icon.completed{background:#16A34A;}
+    .stop-icon.current{background:#FF6B35;}
+    .stop-icon.pending{background:#D1D5DB;color:#6B7280;}
+    .stop-icon.exception{background:#DC2626;}
+    .stop-name{font-size:1.1rem;font-weight:700;color:#0B1E3D;}
+    .stop-events{padding-left:2.5rem;position:relative;}
+    .stop-events::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:#E5E7EB;}
+    .event-item{display:flex;gap:1rem;padding:0.5rem 0;position:relative;}
+    .event-dot{width:8px;height:8px;border-radius:50%;background:#9CA3AF;flex-shrink:0;margin-top:5px;}
+    .event-dot.done{background:#16A34A;}
+    .event-dot.active{background:#FF6B35;box-shadow:0 0 0 4px rgba(255,107,53,0.2);}
+    .event-dot.err{background:#DC2626;}
+    .event-name{font-size:0.9rem;font-weight:600;color:#1F2937;}
+    .event-time{font-size:0.75rem;color:#9CA3AF;margin-top:0.15rem;font-family:'Space Mono',monospace;}
+    .event-note{font-size:0.8rem;color:#6B7280;margin-top:0.2rem;font-style:italic;}
+
+    /* FACTS TABLE */
+    .facts-table{width:100%;border-collapse:collapse;}
+    .facts-table tr{border-bottom:1px solid #E5E7EB;}.facts-table tr:nth-child(odd){background:#EFF6FF;}.facts-table tr:nth-child(even){background:#ffffff;}
+    .facts-table tr:last-child{border-bottom:none;}
+    .facts-table td{padding:0.85rem 1.5rem;font-size:0.88rem;}
+    .facts-table td:first-child{font-size:0.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#6B7280;width:42%;background:transparent;}
+    .facts-table td:last-child{font-weight:500;color:#1F2937;}
+
+    /* SERVICES */
+    .services-grid{display:grid;grid-template-columns:1fr 1fr;}.service-item:nth-child(4n+1),.service-item:nth-child(4n+2){background:#EFF6FF;}.service-item:nth-child(4n+3),.service-item:nth-child(4n+4){background:#ffffff;}
+    .service-item{padding:0.9rem 1.5rem;border-bottom:1px solid #F9FAFB;border-right:1px solid #F9FAFB;}
+    .service-item:nth-child(even){border-right:none;}
+    .service-item:nth-last-child(-n+2){border-bottom:none;}
+    .service-label{font-size:0.68rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#9CA3AF;margin-bottom:0.3rem;}
+    .service-value{font-size:0.88rem;font-weight:600;color:#1F2937;}
+
+    /* PHOTOS */
+    .photos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem;padding:1.5rem;}
+    .photos-grid img{width:100%;height:160px;object-fit:cover;border-radius:8px;border:1px solid #E5E7EB;}
+
+    /* TRACK ANOTHER */
+    .track-another{text-align:center;padding:1.5rem;}
+    .track-another a{display:inline-block;background:#0B1E3D;color:white;padding:0.8rem 2rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.9rem;letter-spacing:1px;}
+    .track-another a:hover{background:#1B6EF3;}
+
+    @media(max-width:640px){
+      .route-card{flex-direction:column;text-align:center;}
+      .services-grid{grid-template-columns:1fr;}
+      .service-item{border-right:none;}
+    }
+  
+    .hold-alert-3d {
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 40%, #b91c1c 100%);
+      border-radius: 16px;
+      padding: 0;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 20px 60px rgba(185,28,28,0.4), 0 8px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+      transform: perspective(1000px) rotateX(1deg);
+      overflow: hidden;
+      position: relative;
+    }
+    .hold-alert-3d::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    }
+    .hold-alert-3d::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
+    }
+    .hold-alert-inner {
+      position: relative;
+      z-index: 1;
+      padding: 1.5rem 2rem;
+    }
+    .hold-alert-top {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .hold-pulse {
+      width: 14px; height: 14px;
+      background: #ff4444;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(255,68,68,0.7);
+      animation: holdpulse 1.5s infinite;
+      flex-shrink: 0;
+    }
+    @keyframes holdpulse {
+      0% { box-shadow: 0 0 0 0 rgba(255,68,68,0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(255,68,68,0); }
+      100% { box-shadow: 0 0 0 0 rgba(255,68,68,0); }
+    }
+    .hold-title { font-family: Barlow Condensed, sans-serif; font-size: 1.4rem; font-weight: 800; color: white; letter-spacing: 1px; text-transform: uppercase; }
+    .hold-ref { font-size: 0.8rem; color: rgba(255,255,255,0.6); font-family: monospace; margin-left: auto; }
+    .hold-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .hold-field { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 0.8rem 1rem; border: 1px solid rgba(255,255,255,0.1); }
+    .hold-field-label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 0.3rem; }
+    .hold-field-value { font-size: 0.95rem; font-weight: 600; color: white; }
+    .hold-message-box { background: rgba(0,0,0,0.25); border-radius: 8px; padding: 1rem; border-left: 3px solid #ff4444; }
+    .hold-message-box p { color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.6; }
+    .hold-deadline { display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; background: rgba(255,68,68,0.2); border-radius: 6px; padding: 0.6rem 1rem; }
+    .hold-deadline span { color: white; font-size: 0.85rem; font-weight: 600; }
+
+    
+
+    .port-timeline{padding:1rem 0;}
+    .port-stop{position:relative;margin-bottom:0;}
+    .port-header{display:flex;align-items:center;gap:1rem;padding:0.8rem 0 0.5rem;position:relative;z-index:1;}
+    .port-icon{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:900;flex-shrink:0;position:relative;z-index:2;}
+    .port-icon.completed{background:var(--green);color:white;border:3px solid white;box-shadow:0 0 0 3px var(--green),0 4px 15px rgba(22,163,74,0.4);}
+    .port-icon.current{background:var(--orange);color:white;border:3px solid white;box-shadow:0 0 0 3px var(--orange),0 4px 15px rgba(255,107,53,0.4);animation:currentpulse 1.5s infinite;}
+    .port-icon.pending{background:white;color:var(--gray);border:3px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+    @keyframes currentpulse{0%,100%{box-shadow:0 0 0 3px var(--orange),0 0 0 6px rgba(255,107,53,0.3)}50%{box-shadow:0 0 0 3px var(--orange),0 0 0 10px rgba(255,107,53,0.1)}}
+    .port-name{font-family:"Barlow Condensed",sans-serif;font-size:1.4rem;font-weight:800;color:var(--navy);}
+    .port-events{padding-left:20px;margin-left:19px;border-left:2px solid var(--green);padding-bottom:0.5rem;margin-bottom:0.5rem;}
+    .port-stop:last-child .port-events{border-left:2px dashed var(--border);}
+    .port-event{display:flex;align-items:flex-start;gap:0.8rem;padding:0.5rem 0;position:relative;}
+    .event-bullet{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px;position:relative;left:-26px;margin-right:-12px;border:2px solid white;box-shadow:0 0 0 1px var(--green);}
+    .event-bullet.completed{background:var(--green);}
+    .event-bullet.active{background:var(--orange);box-shadow:0 0 0 1px var(--orange);animation:activepulse 1.5s infinite;}
+    .event-bullet.pending{background:white;box-shadow:0 0 0 1px var(--border);}
+    @keyframes activepulse{0%,100%{box-shadow:0 0 0 1px var(--orange),0 0 0 4px rgba(255,107,53,0.3)}50%{box-shadow:0 0 0 1px var(--orange),0 0 0 7px rgba(255,107,53,0.1)}}
+    .check{color:white;font-size:0.7rem;font-weight:900;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+    .event-info{flex:1;}
+    .event-name{font-size:0.95rem;font-weight:600;color:var(--text);}
+    .event-time{font-size:0.78rem;color:var(--gray);margin-top:0.1rem;font-family:"Space Mono",monospace;}
+    .event-note{font-size:0.82rem;color:var(--gray);margin-top:0.2rem;font-style:italic;}
+</style>
+
+<style id="timeline-fix">
+.port-timeline{padding:1rem 1.5rem;}
+.port-stop{position:relative;}
+.port-header{display:flex;align-items:center;gap:1rem;padding:0.5rem 0;position:relative;z-index:2;}
+.port-icon{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:900;flex-shrink:0;position:relative;z-index:2;}
+.port-icon.completed{background:#16A34A;color:white;box-shadow:0 0 0 4px rgba(22,163,74,0.25),0 4px 12px rgba(22,163,74,0.3);}
+.port-icon.current{background:#FF6B35;color:white;box-shadow:0 0 0 4px rgba(255,107,53,0.25);animation:cpulse 1.5s infinite;}
+.port-icon.pending{background:white;color:#6B7A99;border:2px solid #DDE3F0;}
+@keyframes cpulse{0%,100%{box-shadow:0 0 0 4px rgba(255,107,53,0.3)}50%{box-shadow:0 0 0 8px rgba(255,107,53,0.1)}}
+.port-name{font-size:1.3rem;font-weight:800;color:#0B1E3D;font-family:Barlow Condensed,sans-serif;}
+.port-events{margin-left:21px;padding-left:21px;border-left:3px solid #16A34A;padding-bottom:1rem;}
+.port-stop:last-child .port-events{border-left:3px dashed #DDE3F0;}
+.port-event{display:flex;align-items:flex-start;gap:0.8rem;padding:0.4rem 0;}
+.event-bullet{width:13px;height:13px;border-radius:50%;flex-shrink:0;margin-top:4px;position:relative;left:-28px;margin-right:-13px;border:2px solid white;}
+.event-bullet.completed{background:#16A34A;box-shadow:0 0 0 2px #16A34A;}
+.event-bullet.active{background:#FF6B35;box-shadow:0 0 0 2px #FF6B35;animation:bpulse 1.5s infinite;}
+.event-bullet.pending{background:white;box-shadow:0 0 0 2px #DDE3F0;}
+@keyframes bpulse{0%,100%{box-shadow:0 0 0 2px #FF6B35,0 0 0 5px rgba(255,107,53,0.3)}50%{box-shadow:0 0 0 2px #FF6B35,0 0 0 8px rgba(255,107,53,0.1)}}
+.check{color:white;font-size:0.65rem;font-weight:900;}
+.event-info{flex:1;}
+.event-name{font-size:0.95rem;font-weight:600;color:#1A2540;}
+.event-time{font-size:0.78rem;color:#6B7A99;font-family:Space Mono,monospace;margin-top:0.1rem;}
+.event-note{font-size:0.82rem;color:#6B7A99;font-style:italic;margin-top:0.2rem;}
+
+/* HOLD STATUS - RED */
+.port-icon.hold {
+  background: #dc2626;
+  color: white;
+  border: 3px solid white;
+  box-shadow: 0 0 0 3px #dc2626, 0 4px 15px rgba(220,38,38,0.4);
+  animation: holdpulse 1.5s infinite;
+}
+@keyframes holdpulse {
+  0%,100% { box-shadow: 0 0 0 3px #dc2626, 0 4px 15px rgba(220,38,38,0.3); }
+  50% { box-shadow: 0 0 0 6px #dc2626, 0 4px 20px rgba(220,38,38,0.7); }
+}
+.event-bullet.hold {
+  background: #dc2626;
+  box-shadow: 0 0 0 2px #dc2626;
+  animation: holdpulse 1.5s infinite;
+}
+/* GREEN BLINK for completed */
+.port-icon.completed {
+  animation: greenpulse 1.5s infinite;
+}
+@keyframes greenpulse {
+  0%,100% { box-shadow: 0 0 0 3px #16A34A, 0 4px 15px rgba(22,163,74,0.3); }
+  50% { box-shadow: 0 0 0 6px #16A34A, 0 4px 20px rgba(22,163,74,0.7); }
+}
+</style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <nav>
+    <a href="/" class="nav-logo">GLIDE<span>VAULT</span></a>
+    <div class="nav-right">
+      <a href="/track">Track</a>
+      <a href="/">Home</a>
+    </div>
+  </nav>
+
+  <div class="hero-band" style="position:relative;padding-bottom:2rem;background-image:url('/static/images/pexels-julien-goettelmann-44396125-28966482.jpg');background-size:cover;background-position:center;background-repeat:no-repeat;"><div style="position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(8,18,40,0.72);z-index:0;"></div><div style="position:relative;z-index:1;">
+    <div class="hero-inner">
+      <div class="tracking-id-label">Tracking ID</div>
+      <div class="tracking-id-value">#{{ shipment.tracking_number }}</div>
+      <div class="status-row">
+        <span class="status-label">Delivery Status</span>
+        {% set st = shipment.hold_type if shipment.get('hold_type') else shipment.status %}
+        {% if st == 'Delivered' %}
+          <span class="status-value"><span class="live-dot delivered"></span> {{ st }}</span>
+        {% elif st == 'On Hold' %}
+          <span class="status-value"><span class="live-dot hold"></span> {{ st }}</span>
+        {% elif 'Customs' in st %}
+          <span class="status-value"><span class="live-dot customs"></span> Exception — {{ st }}</span>
+        {% else %}
+          <span class="status-value"><span class="live-dot"></span> {{ st }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div></div>
+
+  <div class="container">
+    {% set st = shipment.status %}
+    {% if st == 'Delivered' %}
+    <div class="alert alert-green"><span class="alert-dot"></span> Shipment delivered successfully to {{ shipment.receiver_name }}.</div>
+    {% elif st == 'On Hold' %}
+    <div class="alert alert-orange"><span class="alert-dot"></span> Shipment is currently on hold. Please contact your agent immediately.</div>
+    {% elif 'Customs' in st %}
+    <div class="alert alert-red"><span class="alert-dot"></span> Action Required: {{ st }}. Please contact your agent to resolve.</div>
+    {% endif %}
+
+    <!-- ROUTE -->
+    <div class="route-card">
+      <div class="route-point">
+        <div class="rp-label">Origin</div>
+        <div class="rp-city">{{ shipment.origin }}</div>
+        <div class="rp-name">{{ shipment.sender_name }}</div>
+      </div>
+      <div class="route-center">
+        <div class="route-type-badge">{{ 'AIR FREIGHT' if shipment.freight_type == 'Air Freight' else 'SEA FREIGHT' }}</div>
+        <div class="route-line-wrap">
+          <div class="route-dot"></div>
+          <div class="route-line"></div>
+          <div class="route-dot" style="background:#FF6B35;"></div>
+        </div>
+      </div>
+      <div class="route-point" style="text-align:right;">
+        <div class="rp-label">Destination</div>
+        <div class="rp-city">{{ shipment.destination }}</div>
+        <div class="rp-name">{{ shipment.receiver_name }}</div>
+      </div>
+    </div>
+
+    <!-- LIVE MAP -->
+    <div class="map-card">
+      <div class="map-card-header">
+        <div class="sh-icon" style="background:#DBEAFE;color:#1D4ED8;">M</div>
+        <h2>Live Route Map</h2>
+        
+    {% if shipment.get('hold_type') %}
+    <div class="hold-alert-3d">
+      <div class="hold-alert-inner">
+        <div class="hold-alert-top">
+          <div class="hold-pulse"></div>
+          <div class="hold-title">SHIPMENT ON HOLD — ACTION REQUIRED</div>
+          {% if shipment.get('hold_reference') %}
+          <div class="hold-ref">REF: {{ shipment.hold_reference }}</div>
+          {% endif %}
+        </div>
+        <div class="hold-grid">
+          <div class="hold-field">
+            <div class="hold-field-label">Hold Reason</div>
+            <div class="hold-field-value">{{ shipment.hold_type }}</div>
+          </div>
+          {% if shipment.get('hold_amount') %}
+          <div class="hold-field">
+            <div class="hold-field-label">Amount Due</div>
+            <div class="hold-field-value" style="color:#fca5a5;">{{ shipment.hold_amount }}</div>
+          </div>
+          {% endif %}
+        </div>
+        {% if shipment.get('hold_message') %}
+        <div class="hold-message-box">
+          <p>{{ shipment.hold_message }}</p>
+        </div>
+        {% endif %}
+        {% if shipment.get('hold_deadline') %}
+        <div class="hold-deadline">
+          <span>Payment Deadline: {{ shipment.hold_deadline }}</span>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+{% if shipment.current_location %}
+        <span style="margin-left:auto;font-size:0.82rem;color:#22C55E;font-weight:700;">Live — {{ shipment.current_location }}</span>
+        {% endif %}
+      </div>
+                <div id="realmap" style="height:420px;width:100%;border-radius:0px;z-index:1;position:relative;overflow:hidden;"></div>
+                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+                <style>.blinking-dot{width:16px;height:16px;border-radius:50%;background:#16A34A;border:2px solid white;box-shadow:0 0 0 3px rgba(22,163,74,0.4);animation:greenpulse 1.5s infinite;}</style>
+                <script>
+                (function(){
+                  var loc = "{{ shipment.current_location or shipment.origin }}";
+                  var origin = "{{ shipment.origin }}";
+                  var dest = "{{ shipment.destination }}";
+                  var map = L.map('realmap',{zoomControl:true,scrollWheelZoom:false});
+                  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap',maxZoom:18}).addTo(map);
+                  var blinkIcon = L.divIcon({className:'',html:'<div class="blinking-dot"></div>',iconSize:[16,16],iconAnchor:[8,8]});
+                  function geocode(place,cb){fetch('https://nominatim.openstreetmap.org/search?format=json&q='+encodeURIComponent(place)).then(r=>r.json()).then(d=>{if(d&&d[0])cb(+d[0].lat,+d[0].lon);});}
+                  geocode(loc,function(lat,lng){
+                    map.setView([lat,lng],4);
+                    L.marker([lat,lng],{icon:blinkIcon}).addTo(map).bindPopup('<b>Current Location</b><br>'+loc).openPopup();
+                    geocode(origin,function(olat,olng){
+                      L.circleMarker([olat,olng],{radius:6,color:'#16A34A',fillColor:'#16A34A',fillOpacity:1}).addTo(map).bindPopup('Origin: '+origin);
+                      geocode(dest,function(dlat,dlng){
+                        L.circleMarker([dlat,dlng],{radius:6,color:'#dc2626',fillColor:'#dc2626',fillOpacity:1}).addTo(map).bindPopup('Destination: '+dest);
+                        var line=L.polyline([[olat,olng],[lat,lng],[dlat,dlng]],{color:'#16A34A',weight:2,dashArray:'6,4'}).addTo(map);
+                        map.fitBounds(line.getBounds(),{padding:[20,20]});
+                      });
+                    });
+                  });
+                })();
+                </script>
+        <div class="map-land-left"></div>
+        <div class="map-land-right"></div>
+        
+        
+        
+        {% if shipment.current_location and shipment.status != 'Delivered' %}
+        
+        
+        {% endif %}
+        
+        
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="section-card">
+      <div class="card-header" style="border-bottom:1px solid var(--border);">
+        <h2 style="font-size:1.1rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#1D4ED8;display:flex;align-items:center;gap:0.6rem;"><span style="display:inline-block;width:4px;height:22px;background:linear-gradient(180deg,#FF6B35,#1D4ED8);border-radius:4px;"></span>SHIPMENT TIMELINE</h2>
+      </div>
+      <div class="timeline-body" style="padding:1.5rem 2rem;">
+        {% if timeline %}
+          {% set tl = timeline %}
+          {% if tl[0] is mapping and tl[0].port is defined %}
+            <!-- NEW PORT-GROUPED FORMAT -->
+            <div class="port-timeline">
+              {% for stop in tl %}
+              <div class="port-stop">
+                <div class="port-header">
+                  <div class="port-icon {{ 'completed' if stop.completed else 'current' if loop.last else 'pending' }}">
+                    {% if stop.completed %}✓{% elif loop.last %}→{% else %}○{% endif %}
+                  </div>
+                  <div class="port-name">{{ stop.port }}</div>
+                </div>
+                {% if stop.events %}
+                <div class="port-events">
+                  {% for event in stop.events %}
+                  <div class="port-event">
+                    <div class="event-line"></div>
+                    <div class="event-bullet {{ 'hold' if event.name == 'On Hold' else 'completed' if stop.completed else 'active' if loop.last and not stop.completed else 'pending' }}">
+                      {% if stop.completed %}<span class="check">✓</span>{% elif loop.last and not stop.completed %}<span class="pulse-dot"></span>{% endif %}
+                    </div>
+                    <div class="event-info">
+                      <div class="event-name">{{ event.name }}</div>
+                      <div class="event-time">{{ event.timestamp }}</div>
+                      {% if event.note %}<div class="event-note">{{ event.note }}</div>{% endif %}
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% endif %}
+              </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <!-- OLD FORMAT FALLBACK -->
+            {% set seen_locs = [] %}
+            {% for event in tl %}{% if (event.location if event.location else 'Origin') not in seen_locs %}{% set _ = seen_locs.append(event.location if event.location else 'Origin') %}{% endif %}{% endfor %}
+            {% for loc in seen_locs %}
+              {% set loc_events = [] %}
+              {% for e in tl %}{% if (e.location if e.location else 'Origin') == loc %}{% set _ = loc_events.append(e) %}{% endif %}{% endfor %}
+              <div class="port-stop">
+                <div class="port-header">
+                  <div class="port-icon {{ 'current' if loop.last and shipment.status != 'Delivered' else 'completed' }}">
+                    {{ '✓' if not loop.last or shipment.status == 'Delivered' else '→' }}
+                  </div>
+                  <div class="port-name">{{ loc }}</div>
+                </div>
+                <div class="port-events">
+                  {% for event in loc_events %}
+                  <div class="port-event">
+                    <div class="event-line"></div>
+                    <div class="event-bullet completed"><span class="check">✓</span></div>
+                    <div class="event-info">
+                      <div class="event-name">{{ event.status }}</div>
+                      <div class="event-time">{{ event.timestamp }}</div>
+                      {% if event.note %}<div class="event-note">{{ event.note }}</div>{% endif %}
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% else %}
+          <p style="color:var(--gray);text-align:center;padding:2rem;">No timeline events yet.</p>
+        {% endif %}
+      </div>
+    </div>
+
+<!-- SHIPMENT FACTS -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="sh-icon" style="background:#EFF6FF;color:#1D4ED8;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+        <h2>Shipment Overview</h2>
+      </div>
+      <table class="facts-table">
+        <tr><td>Tracking Number</td><td style="font-family:'Space Mono',monospace;color:#1B6EF3;font-size:0.85rem;">{{ shipment.tracking_number }}</td></tr>
+        <tr><td>Ship Date</td><td>{{ shipment.created_date }}</td></tr>
+        <tr><td>Destination Address</td><td>{{ shipment.receiver_address or 'N/A' }}</td></tr>
+        <tr><td>Est. Delivery Date</td><td>{{ shipment.estimated_delivery or 'N/A' }}</td></tr>
+        <tr><td>Weight</td><td>{{ shipment.weight or 'N/A' }}</td></tr>
+        <tr><td>Cargo Description</td><td>{{ shipment.description or 'N/A' }}</td></tr>
+        <tr><td>Current Location</td><td>{{ shipment.current_location or 'N/A' }}</td></tr>
+        <tr><td>Delivered To</td><td>{{ shipment.receiver_name if shipment.status == 'Delivered' else 'N/A' }}</td></tr>
+      </table>
+    </div>
+
+    <!-- SERVICES -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="sh-icon" style="background:#FFF7ED;color:#EA580C;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <h2>Services</h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-item"><div class="service-label">Service</div><div class="service-value">{{ 'Glide Vault Air Cargo' if shipment.freight_type == 'Air Freight' else 'Glide Vault Sea Cargo' }}</div></div>
+        <div class="service-item"><div class="service-label">Freight Type</div><div class="service-value">{{ shipment.freight_type }}</div></div>
+        <div class="service-item"><div class="service-label">Terms</div><div class="service-value">Shipper</div></div>
+        <div class="service-item"><div class="service-label">Signature Services</div><div class="service-value">Direct Signature Required</div></div>
+        <div class="service-item"><div class="service-label">Special Handling</div><div class="service-value">{{ shipment.notes or 'Standard Handling' }}</div></div>
+        <div class="service-item"><div class="service-label">Status</div><div class="service-value">{{ shipment.status }}</div></div>
+      </div>
+    </div>
+
+    <!-- PACKAGE DETAILS -->
+    <div class="section-card">
+      <div class="section-header">
+        <div class="sh-icon" style="background:#F0FDF4;color:#16A34A;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+        <h2>Package Details</h2>
+      </div>
+      <table class="facts-table">
+        <tr><td>Sender Name</td><td>{{ shipment.sender_name }}</td></tr>
+        <tr><td>Sender Address</td><td>{{ shipment.sender_address or 'N/A' }}</td></tr>
+        <tr><td>Receiver Name</td><td>{{ shipment.receiver_name }}</td></tr>
+        <tr><td>Receiver Address</td><td>{{ shipment.receiver_address or 'N/A' }}</td></tr>
+      </table>
+    </div>
+
+    {% if photos %}
+    <div class="section-card">
+      <div class="section-header">
+        <div class="sh-icon" style="background:#FDF4FF;color:#9333EA;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+        <h2>Shipment Photos</h2>
+      </div>
+      <div class="photos-grid">
+        {% for photo in photos %}<img src="{{ photo }}" alt="Shipment photo" onerror="this.style.display='none'"/>{% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="track-another"><a href="/track">Track Another Shipment</a></div>
+  </div>
+</body>
+</html>

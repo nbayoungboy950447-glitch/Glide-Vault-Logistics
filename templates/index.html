@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Glide Vault Logistics | Global Freight Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080C12;--surface:#0F1520;--card:#141C2B;--blue:#1B6EF3;--blue-light:#4D8FF7;--orange:#FF6B35;--white:#F0F4FF;--gray:#6B7A99;--border:rgba(27,110,243,0.15);}
+    ,::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;overflow-x:hidden;background-image:url('/static/images/pexels-tomfisk-3245117.jpg');background-size:cover;background-position:center;background-attachment:fixed;background-repeat:no-repeat;}.body-overlay{position:fixed;inset:0;background:rgba(8,12,18,0.88);z-index:0;pointer-events:none;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:linear-gradient(135deg,#0A1628,#0D2151);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.1);box-shadow:0 4px 24px rgba(0,0,0,0.4);}
+    .nav-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:2px;color:var(--white);text-decoration:none;}
+    .nav-logo span{color:var(--orange);}
+    .nav-links{display:flex;gap:2rem;align-items:center;}
+    .nav-links a{color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;}
+    .nav-links a:hover{color:var(--white);}
+    .nav-btn{background:var(--blue);color:var(--white);padding:0.6rem 1.5rem;border:none;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:1px;font-size:0.95rem;cursor:pointer;text-decoration:none;transition:background 0.3s;}
+    .nav-btn:hover{background:var(--blue-light);}
+    .hero{min-height:100vh;display:flex;align-items:center;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;top:0;right:0;width:60%;height:100%;background:radial-gradient(ellipse at 70% 50%,rgba(27,110,243,0.12) 0%,transparent 70%);}
+    .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(27,110,243,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(27,110,243,0.04) 1px,transparent 1px);background-size:60px 60px;}
+    .hero-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+    .hero{position:relative;overflow:hidden;}
+    .hero-content{position:relative;z-index:1;}
+    .hero-content{position:relative;z-index:1;max-width:700px;background:rgba(255,255,255,0.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:2.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.3),0 0 0 1px rgba(255,255,255,0.05),0 0 20px rgba(255,255,255,0.08),inset 0 1px 0 rgba(255,255,255,0.25),inset 0 -1px 0 rgba(255,255,255,0.08);outline:1px solid rgba(255,255,255,0.06);}
+    .hero-tag{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(27,110,243,0.1);border:1px solid rgba(27,110,243,0.3);padding:0.4rem 1rem;border-radius:50px;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--blue-light);margin-bottom:2rem;}
+    .hero-tag::before{content:'';width:6px;height:6px;background:var(--blue);border-radius:50%;animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.5)}}
+    .hero h1{font-family:'Barlow Condensed',sans-serif;font-size:clamp(3.5rem,7vw,6.5rem);font-weight:800;line-height:0.92;letter-spacing:-2px;margin-bottom:1.5rem;color:#E8F4FD;text-shadow:0 0 40px rgba(99,179,237,0.3),0 4px 20px rgba(0,0,0,0.5);filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4));}
+    .hero h1 .accent{background:linear-gradient(135deg,#FF6B35,#FF0080,#7B2FF7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;filter:drop-shadow(0 2px 8px rgba(255,107,53,0.4));}
+    .hero p{font-size:1.15rem;color:rgba(255,255,255,0.8);line-height:1.7;max-width:520px;margin-bottom:3rem;}
+    .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+    .btn-primary{background:linear-gradient(135deg,#00C6FF,#0072FF,#7B2FF7);color:white;padding:1rem 2.5rem;border:none;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.3s;display:inline-flex;align-items:center;gap:0.5rem;box-shadow:0 4px 20px rgba(0,114,255,0.5),0 2px 6px rgba(123,47,247,0.4),inset 0 1px 0 rgba(255,255,255,0.25);text-shadow:0 1px 3px rgba(0,0,0,0.4);}
+    .btn-primary:hover{background:var(--blue-light);transform:translateY(-2px);}
+    .btn-outline{background:rgba(255,255,255,0.08);backdrop-filter:blur(16px);color:var(--white);padding:1rem 2.5rem;border:1px solid rgba(255,255,255,0.25);border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.3s;box-shadow:0 4px 16px rgba(0,0,0,0.2),inset 0 1px 0 rgba(255,255,255,0.15);}
+    .btn-outline:hover{border-color:var(--orange);color:var(--orange);}
+    .track-bar{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:2rem 4rem;margin:0 4rem;display:flex;align-items:center;gap:1rem;position:relative;z-index:1;box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.1);}
+    .track-bar h3{font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:2px;text-transform:uppercase;color:var(--gray);white-space:nowrap;margin-right:1rem;}
+    .track-bar input{flex:1;background:var(--card);border:1px solid var(--border);border-radius:6px;padding:0.9rem 1.2rem;color:var(--white);font-family:'Space Mono',monospace;font-size:1rem;outline:none;transition:border-color 0.3s;}
+    .track-bar input:focus{border-color:var(--blue);}
+    .track-bar input::placeholder{color:var(--gray);}
+    .track-bar button{background:linear-gradient(135deg,#FF6B35,#ff4500);color:white;border:none;padding:0.9rem 2rem;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;cursor:pointer;transition:all 0.3s;box-shadow:0 4px 15px rgba(255,107,53,0.4),inset 0 1px 0 rgba(255,255,255,0.2);text-shadow:0 1px 2px rgba(0,0,0,0.3);}
+    .track-bar button:hover{background:#ff8555;}
+    .stats{display:flex;gap:0;margin:2rem 4rem;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+    .stat{flex:1;padding:2rem;text-align:center;border-right:1px solid var(--border);background:var(--surface);}
+    .stat:last-child{border-right:none;}
+    .stat-num{font-family:'Barlow Condensed',sans-serif;font-size:2.8rem;font-weight:800;color:#FF6B35;text-shadow:0 0 20px rgba(255,107,53,0.5);}
+    .stat-label{font-size:0.85rem;color:rgba(255,255,255,0.8);letter-spacing:1px;text-transform:uppercase;margin-top:0.3rem;font-weight:600;}
+    .section{padding:6rem 4rem;background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);}
+    .section-tag{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:1rem;}
+    .section-title{font-family:'Barlow Condensed',sans-serif;font-size:clamp(2.5rem,4vw,3.5rem);font-weight:800;line-height:1;margin-bottom:1rem;}
+    .section-sub{color:var(--gray);max-width:500px;line-height:1.7;margin-bottom:3rem;}
+    .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .service-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem;transition:all 0.3s;}
+    .service-card:hover{border-color:var(--orange);transform:translateY(-4px);}
+    .service-icon{width:50px;height:50px;background:rgba(255,107,53,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.5rem;}
+    .service-card h3{font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:1px;margin-bottom:0.7rem;}
+    .service-card p{color:var(--gray);font-size:0.9rem;line-height:1.6;}
+    .how-section{background:var(--surface);padding:6rem 4rem;}
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;margin-top:3rem;}
+    .step{text-align:center;background:rgba(255,255,255,0.05);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:2rem;box-shadow:0 4px 20px rgba(0,0,0,0.2);}
+    .step-num{font-family:'Barlow Condensed',sans-serif;font-size:4rem;font-weight:800;color:rgba(255,107,53,0.2);line-height:1;}
+    .step h3{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;margin:0.5rem 0;}
+    .step p{color:var(--gray);font-size:0.9rem;line-height:1.6;}
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:3rem 4rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    .footer-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.3rem;}
+    .footer-logo span{color:var(--orange);}
+    footer p{color:var(--gray);font-size:0.85rem;}
+    @media(max-width:768px){
+      .footer-grid{grid-template-columns:1fr 1fr!important;}
+      body{background-attachment:scroll;}
+      nav{padding:0.8rem 1.2rem;}
+      .nav-links{display:none;}
+      .hero{background-attachment:scroll;}
+      .hero{padding:6rem 1.2rem 2rem;}
+      .hero-content{padding:1.5rem;width:100%;box-sizing:border-box;}
+      .hero h1{font-size:2.8rem;}
+      .hero p{font-size:1rem;}
+      .hero-actions{flex-direction:column;gap:0.8rem;width:100%;}
+      .hero-actions a{width:100%;text-align:center;box-sizing:border-box;}
+      .btn-primary,.btn-outline{width:100%;text-align:center;justify-content:center;padding:0.9rem 1.5rem;box-sizing:border-box;}
+      .track-bar{flex-direction:column;margin:0 1.2rem;padding:1.2rem;gap:0.8rem;}
+      .track-bar h3{margin-right:0;text-align:center;}
+      .track-bar input{width:100%;}
+      .track-bar button{width:100%;}
+      .stats{margin:1.2rem;flex-wrap:wrap;}
+      .stat{flex:1 1 45%;padding:1.2rem;}
+      .stat-num{font-size:2rem;}
+      .section,.how-section{padding:3rem 1.2rem;}
+      .services-grid{grid-template-columns:1fr;}
+      .steps{grid-template-columns:1fr 1fr;gap:1rem;}
+      .step{padding:1.2rem;}
+      footer{padding:2rem 1.2rem;}
+      footer>div{grid-template-columns:1fr!important;}
+      footer>div>div:first-child{margin-bottom:1rem;}
+      footer .contact-grid{grid-template-columns:1fr!important;}
+    }
+    @media(max-width:480px){
+      .hero h1{font-size:2.2rem;}
+      .stat{flex:1 1 100%;}
+      .steps{grid-template-columns:1fr;}
+      nav a svg{width:32px;height:32px;}
+      nav>a>div>span:first-child{font-size:1rem;}
+    }
+
+    .hamburger{display:flex;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;padding:0.35rem;background:none;border:none;z-index:200;min-width:40px;min-height:40px;align-items:center;flex-shrink:0;}
+    .hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:all 0.3s;}
+    .hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px);}
+    .hamburger.active span:nth-child(2){opacity:0;}
+    .hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px);}
+    .side-menu{position:fixed;top:0;right:-300px;width:300px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:999;transition:right 0.3s ease;padding:0;display:flex;flex-direction:column;}
+    .side-menu.open{right:0;}
+    .side-menu-header{display:flex;align-items:center;justify-content:space-between;padding:1.5rem;border-bottom:1px solid var(--border);}
+    .side-logo{font-family:"Barlow Condensed",sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:2px;}
+    .side-logo span{color:var(--orange);}
+    .close-btn{background:none;border:none;color:var(--gray);font-size:1.2rem;cursor:pointer;padding:0.3rem;}
+    .close-btn:hover{color:var(--white);}
+    .side-nav{display:flex;flex-direction:column;padding:1.5rem;gap:0.5rem;}
+    .side-nav a{color:var(--gray);text-decoration:none;padding:0.9rem 1rem;border-radius:8px;font-size:1rem;transition:all 0.2s;border:1px solid transparent;display:flex;align-items:center;}
+    .side-nav a:hover{background:rgba(255,107,53,0.1);color:var(--white);border-color:rgba(255,107,53,0.2);}
+    .side-nav a:last-child{margin-top:1rem;background:rgba(255,107,53,0.1);color:var(--orange);border-color:rgba(255,107,53,0.3);}
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:998;display:none;backdrop-filter:blur(4px);}
+    .overlay.show{display:block;}
+
+  .hamburger{background:none;border:none;color:#F0F4FF;font-size:1.5rem;cursor:pointer;padding:0.3rem 0.5rem;}
+  .side-menu{position:fixed;top:0;right:-300px;width:280px;height:100vh;background:rgba(255,255,255,0.08);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);z-index:9999;pointer-events:auto;transition:right 0.3s ease;padding:0;border-left:1px solid rgba(255,255,255,0.2);box-shadow:-10px 0 40px rgba(0,0,0,0.4),inset 1px 0 0 rgba(255,255,255,0.15);}
+  .side-menu.open{right:0;}
+  .side-menu-header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.15);font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:1.3rem;letter-spacing:2px;color:#FFFFFF;background:rgba(255,255,255,0.05);}
+  .side-nav{display:flex;flex-direction:column;padding:1.5rem;gap:0.5rem;}
+  .side-nav a{color:rgba(255,255,255,0.9);text-decoration:none;padding:1rem 1.2rem;border-radius:10px;font-size:1rem;display:flex;align-items:center;gap:0.8rem;font-family:Barlow Condensed,sans-serif;font-weight:600;letter-spacing:1px;text-transform:uppercase;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);transition:all 0.2s;backdrop-filter:blur(10px);}
+  .side-nav a:hover{background:rgba(255,107,53,0.15);color:#FF6B35;border-color:rgba(255,107,53,0.4);transform:translateX(4px);}
+  #overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9000;display:none;pointer-events:none;}
+  #overlay.show{display:block;pointer-events:auto;}
+</style>
+<link rel="stylesheet" href="/static/css/nav.css"/><link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <div class="body-overlay"></div>
+  <nav>
+        <a href="/" style="display:flex;align-items:center;gap:0.8rem;text-decoration:none;">
+      <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="hexGrad" x1="0" y1="0" x2="46" y2="46" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#1B6EF3"/>
+            <stop offset="100%" stop-color="#060D1F"/>
+          </linearGradient>
+          <linearGradient id="arrowGrad" x1="0" y1="0" x2="46" y2="0" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF6B35"/>
+            <stop offset="100%" stop-color="#FF0080"/>
+          </linearGradient>
+        </defs>
+        <!-- Outer hexagon -->
+        <path d="M23 2L42 13V33L23 44L4 33V13L23 2Z" fill="url(#hexGrad)" stroke="rgba(27,110,243,0.6)" stroke-width="1.5"/>
+        <!-- Inner ring -->
+        <circle cx="23" cy="23" r="12" stroke="rgba(255,255,255,0.15)" stroke-width="1" fill="none"/>
+        <!-- Horizontal lines (globe effect) -->
+        <line x1="11" y1="23" x2="35" y2="23" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
+        <line x1="13" y1="17" x2="33" y2="17" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+        <line x1="13" y1="29" x2="33" y2="29" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+        <!-- Vertical ellipse -->
+        <ellipse cx="23" cy="23" rx="6" ry="12" stroke="rgba(255,255,255,0.12)" stroke-width="0.8" fill="none"/>
+        <!-- Bold arrow up-right (the G mark) -->
+        <path d="M17 27L23 17L29 27" stroke="url(#arrowGrad)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <line x1="23" y1="17" x2="23" y2="31" stroke="url(#arrowGrad)" stroke-width="2.8" stroke-linecap="round"/>
+      </svg>
+      <div style="display:flex;flex-direction:column;line-height:1.15;">
+        <span style="font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:1.25rem;letter-spacing:3px;color:#F0F4FF;">GLIDE<span style="color:#FF6B35;">VAULT</span></span>
+        <span style="font-size:0.48rem;letter-spacing:4px;color:rgba(255,255,255,0.4);text-transform:uppercase;">LOGISTICS</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#how">How It Works</a>
+      <a href="/track">Track</a>
+    </div>
+    <button class="hamburger" onclick="openMenu()">&#9776;</button>
+  </nav>
+  <div class="side-menu" id="sideMenu">
+    <div class="side-menu-header">
+      <span>GLIDE<span style="color:#FF6B35">VAULT</span></span>
+      <button onclick="closeMenu()" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;font-size:1.2rem;cursor:pointer;padding:0.3rem 0.6rem;border-radius:6px;">&#10005;</button>
+    </div>
+    <div class="side-nav">
+      <a href="#services" onclick="closeMenu()" ><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg> Services</a>
+      <a href="#how" onclick="closeMenu()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg> How It Works</a>
+      <a href="/track" onclick="closeMenu()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Track Shipment</a>
+      <a href="/admin" onclick="closeMenu()" style="background:#FFF7ED;border-color:#FDBA74;color:#EA580C;margin-top:0.5rem;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx-2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Admin Portal</a>
+    </div>
+  </div>
+  <div id="overlay" onclick="closeMenu()"></div>
+    </div>
+    <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+  </nav>
+    </div>
+    <div class="overlay" id="overlay" onclick="closeMenu()"></div>
+  </nav>
+  <section class="hero">
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="/static/videos/background-compressed.mp4" type="video/mp4">
+    </video>
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Global Logistics Network</div>
+      <h1>MOVING CARGO<span class="accent">WORLDWIDE.</span></h1>
+      <p>Air and sea freight solutions with real-time tracking, customs support, and guaranteed delivery across 150+ countries.</p>
+      <div class="hero-actions">
+        <a href="/track" class="btn-primary">Track Shipment →</a>
+        <a href="#services" class="btn-outline">Our Services</a>
+      </div>
+    </div>
+  </section>
+  <form class="track-bar" action="/track" method="POST" style="position:relative;z-index:1;">
+    <h3>Quick Track</h3>
+    <input type="text" name="tracking_number" placeholder="Enter tracking number e.g. GVL240329ABCD"/>
+    <button type="submit">TRACK NOW</button>
+  </form>
+  <div class="stats" style="position:relative;z-index:1;">
+    <div class="stat"><div class="stat-num">150+</div><div class="stat-label">Countries Served</div></div>
+    <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Live Support</div></div>
+    <div class="stat"><div class="stat-num">98.7%</div><div class="stat-label">On-Time Delivery</div></div>
+    <div class="stat"><div class="stat-num">50K+</div><div class="stat-label">Shipments Handled</div></div>
+  </div>
+  <section class="section" id="services">
+    <div class="section-tag">What We Offer</div>
+    <h2 class="section-title">FREIGHT SERVICES</h2>
+    <p class="section-sub">Comprehensive logistics solutions tailored to your cargo's size, urgency, and destination.</p>
+    <div class="services-grid">
+      <div class="service-card" style="background-image:url('https://images.pexels.com/photos/358220/pexels-photo-358220.jpeg?auto=compress&cs=tinysrgb&w=800');background-size:cover;background-position:center;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 60%);z-index:0;"></div><div style="position:relative;z-index:1;"><div class="service-icon" style="background:linear-gradient(135deg,rgba(27,110,243,0.3),rgba(27,110,243,0.05));box-shadow:0 4px 15px rgba(27,110,243,0.3),inset 0 1px 0 rgba(255,255,255,0.2);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" stroke-width="1.5"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="rgba(96,165,250,0.15)" stroke="#60A5FA"/></svg></div><h3>Air Freight</h3><p>Express air cargo for time-sensitive shipments. Priority handling and fastest delivery times worldwide.</p></div></div>
+      <div class="service-card" style="background-image:url('https://images.pexels.com/photos/1554646/pexels-photo-1554646.jpeg?auto=compress&cs=tinysrgb&w=800');background-size:cover;background-position:center;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 60%);z-index:0;"></div><div style="position:relative;z-index:1;"><div class="service-icon" style="background:linear-gradient(135deg,rgba(6,182,212,0.3),rgba(6,182,212,0.05));box-shadow:0 4px 15px rgba(6,182,212,0.3),inset 0 1px 0 rgba(255,255,255,0.2);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="1.5"><path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1" fill="none"/><path d="M4 18l-1-5h18l-2 5" fill="rgba(34,211,238,0.1)"/><path d="M12 3v9"/><path d="M8 9l4-6 4 6"/></svg></div><h3>Sea Freight</h3><p>FCL and LCL ocean freight for large cargo. Cost-effective shipping across major sea routes globally.</p></div></div>
+      <div class="service-card" style="background-image:url('https://images.pexels.com/photos/4481259/pexels-photo-4481259.jpeg?auto=compress&cs=tinysrgb&w=800');background-size:cover;background-position:center;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 60%);z-index:0;"></div><div style="position:relative;z-index:1;"><div class="service-icon" style="background:linear-gradient(135deg,rgba(255,107,53,0.3),rgba(255,107,53,0.05));box-shadow:0 4px 15px rgba(255,107,53,0.3),inset 0 1px 0 rgba(255,255,255,0.2);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FB923C" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" fill="rgba(251,146,60,0.1)"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div><h3>Customs Clearance</h3><p>Seamless documentation and customs handling by certified agents in every destination country.</p></div></div>
+      <div class="service-card" style="background-image:url('https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg?auto=compress&cs=tinysrgb&w=800');background-size:cover;background-position:center;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 60%);z-index:0;"></div><div style="position:relative;z-index:1;"><div class="service-icon" style="background:linear-gradient(135deg,rgba(34,197,94,0.3),rgba(34,197,94,0.05));box-shadow:0 4px 15px rgba(34,197,94,0.3),inset 0 1px 0 rgba(255,255,255,0.2);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" fill="rgba(74,222,128,0.1)"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div><h3>Secure Storage</h3><p>Climate-controlled warehousing and secure storage while your cargo awaits clearance or pickup.</p></div></div>
+      <div class="service-card" style="background-image:url('https://images.pexels.com/photos/2226458/pexels-photo-2226458.jpeg?auto=compress&cs=tinysrgb&w=800');background-size:cover;background-position:center;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 60%);z-index:0;"></div><div style="position:relative;z-index:1;"><div class="service-icon" style="background:linear-gradient(135deg,rgba(168,85,247,0.3),rgba(168,85,247,0.05));box-shadow:0 4px 15px rgba(168,85,247,0.3),inset 0 1px 0 rgba(255,255,255,0.2);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C084FC" stroke-width="1.5"><circle cx="12" cy="12" r="2" fill="rgba(192,132,252,0.3)"/><path d="M16.24 7.76a6 6 0 0 1 0 8.49"/><path d="M7.76 16.24a6 6 0 0 1 0-8.49"/><path d="M20.07 3.93a10 10 0 0 1 0 16.14"/><path d="M3.93 20.07a10 10 0 0 1 0-16.14"/></svg></div><h3>Real-Time Tracking</h3><p>Live status updates at every checkpoint. Know exactly where your shipment is at any moment.</p></div></div>
+      <div class="service-card" style="background-image:url('https://images.pexels.com/photos/906982/pexels-photo-906982.jpeg?auto=compress&cs=tinysrgb&w=800');background-size:cover;background-position:center;position:relative;overflow:hidden;"><div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 60%);z-index:0;"></div><div style="position:relative;z-index:1;"><div class="service-icon" style="background:linear-gradient(135deg,rgba(234,179,8,0.3),rgba(234,179,8,0.05));box-shadow:0 4px 15px rgba(234,179,8,0.3),inset 0 1px 0 rgba(255,255,255,0.2);"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FACC15" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="rgba(250,204,21,0.1)"/><polyline points="9 12 11 14 15 10"/></svg></div><h3>Cargo Insurance</h3><p>Full cargo insurance options for peace of mind. Your goods are protected from origin to destination.</p></div></div>
+      
+    </div>
+  </section>
+  <section class="how-section" id="how" style="position:relative;z-index:1;">
+    <div style="background:rgba(255,255,255,0.06);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:1.5rem 2rem;display:inline-block;margin-bottom:2rem;"><div class="section-tag">The Process</div><h2 class="section-title">HOW IT WORKS</h2></div>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Book Shipment</h3><p>Submit your cargo details and get a tracking number instantly.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Pickup & Pack</h3><p>Our agents collect and professionally package your cargo.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>In Transit</h3><p>Live tracking at every step through our global network.</p></div>
+      <div class="step"><div class="step-num">04</div><h3>Delivered</h3><p>Safe delivery with proof of delivery confirmation.</p></div>
+    </div>
+  </section>
+  <footer style="background:rgba(10,22,40,0.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,0.15);padding:4rem;color:white;box-shadow:inset 0 1px 0 rgba(255,255,255,0.08);">
+    <div style="max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;" class="footer-grid">
+      
+      <!-- Company Info -->
+      <div>
+        <div style="font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:2px;margin-bottom:0.3rem;">GLIDE<span style="color:#FF6B35;">VAULT</span> LOGISTICS</div>
+        <p style="color:rgba(255,255,255,0.5);font-size:0.8rem;margin-bottom:1.2rem;letter-spacing:1px;">GLOBAL FREIGHT SOLUTIONS</p>
+        <p style="color:rgba(255,255,255,0.6);font-size:0.85rem;line-height:1.7;margin-bottom:1rem;">Tower 42, 25 Old Broad St<br>Cornhill, London, UK</p>
+        <a href="mailto:info@glidevaultlogistics.com" style="color:#FF6B35;font-size:0.85rem;text-decoration:none;">info@glidevaultlogistics.com</a>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 style="font-family:Barlow Condensed,sans-serif;font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.2rem;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:0.8rem;">Services</h4>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;">
+          <a href="/services/air-freight" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;transition:color 0.2s;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg> Air Freight</a>
+          <a href="/services/ocean-freight" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20a2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1 2.4 2.4 0 0 0 2 1 2.4 2.4 0 0 0 2-1 2.4 2.4 0 0 1 2-1 2.4 2.4 0 0 1 2 1"/><path d="M4 18l-1-5h18l-2 5"/><path d="M12 3v9"/><path d="M8 9l4-6 4 6"/></svg> Ocean Freight</a>
+          <a href="/services/railway-freight" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="13" rx="2"/><path d="M8 19l-2 3"/><path d="M16 19l2 3"/><path d="M8 13v-2"/><path d="M16 13v-2"/><line x1="4" y1="9" x2="20" y2="9"/></svg> Railway Freight</a>
+          <a href="/services/warehousing" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Warehousing</a>
+          <a href="/services/distribution" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8h14M5 8a2 2 0 1 0 0-4h14a2 2 0 1 0 0 4M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8"/></svg> Distribution</a>
+          <a href="/services/value-added" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Value Added</a>
+        </div>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 style="font-family:Barlow Condensed,sans-serif;font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.2rem;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:0.8rem;">Company</h4>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;">
+          <a href="/company/mission" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Mission</a>
+          <a href="/company/why-us" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg> Why Choose Us?</a>
+          <a href="/company/case-studies" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Case Studies</a>
+          <a href="/company/certificates" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> Our Certificates</a>
+          <a href="/company/contact" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.85 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Contact Us</a>
+        </div>
+      </div>
+
+      <!-- Industries -->
+      <div>
+        <h4 style="font-family:Barlow Condensed,sans-serif;font-size:0.85rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1.2rem;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:0.8rem;">Industries</h4>
+        <div style="display:flex;flex-direction:column;gap:0.7rem;">
+          <a href="/industries/global-coverage" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Global Coverage</a>
+          <a href="/industries/distribution" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Distribution</a>
+          <a href="/industries/accounting" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Accounting Tools</a>
+          <a href="/industries/freight-recovery" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg> Freight Recovery</a>
+          <a href="/industries/supply-chain" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Supply Chain</a>
+          <a href="/industries/warehousing" style="color:rgba(255,255,255,0.75);text-decoration:none;font-size:0.9rem;" onmouseover="this.style.color='#FF6B35'" onmouseout="this.style.color='rgba(255,255,255,0.75)'"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Warehousing</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div style="margin-top:3rem;padding-top:3rem;border-top:1px solid rgba(255,255,255,0.1);">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1100px;margin:0 auto;" class="contact-grid">
+        
+        <!-- Left - Info -->
+        <div>
+          <h3 style="font-family:Barlow Condensed,sans-serif;font-size:1.8rem;font-weight:800;color:#F0F4FF;letter-spacing:2px;margin-bottom:0.5rem;">LONDON</h3>
+          <p style="color:rgba(255,255,255,0.6);font-size:0.9rem;line-height:1.8;margin-bottom:1.5rem;">Tower 42, 25 Old Broad St<br>Cornhill, London, UK</p>
+          <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:2rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <a href="mailto:info@glidevaultlogistics.co.uk" style="color:#FF6B35;font-size:0.9rem;text-decoration:none;">info@glidevaultlogistics.co.uk</a>
+          </div>
+          <h4 style="font-family:Barlow Condensed,sans-serif;font-size:1.3rem;font-weight:700;color:#F0F4FF;letter-spacing:1px;margin-bottom:0.5rem;">Need to Make an Enquiry?</h4>
+          <p style="color:rgba(255,255,255,0.5);font-size:0.85rem;line-height:1.7;">Fill out the form and our team will get back to you within 24 hours. We handle air, sea, rail and road freight worldwide.</p>
+        </div>
+
+        <!-- Right - Form -->
+        <form action="/contact" method="POST" style="display:flex;flex-direction:column;gap:1rem;width:100%;">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+              <label style="display:block;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Your Full Name *</label>
+              <input type="text" name="full_name" required placeholder="John Smith" style="width:100%;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:0.85rem 1rem;color:#F0F4FF;font-size:0.95rem;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderColor='#FF6B35'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'"/>
+            </div>
+            <div>
+              <label style="display:block;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Email *</label>
+              <input type="email" name="email" required placeholder="john@example.com" style="width:100%;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:0.85rem 1rem;color:#F0F4FF;font-size:0.95rem;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderColor='#FF6B35'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'"/>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div>
+              <label style="display:block;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Number *</label>
+              <input type="tel" name="phone" required placeholder="+44 7700 000000" style="width:100%;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:0.85rem 1rem;color:#F0F4FF;font-size:0.95rem;outline:none;transition:border-color 0.3s;" onfocus="this.style.borderColor='#FF6B35'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'"/>
+            </div>
+            <div>
+              <label style="display:block;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Topic</label>
+              <select name="topic" style="width:100%;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:0.85rem 1rem;color:#F0F4FF;font-size:0.95rem;outline:none;">
+                <option value="" style="background:#0A1628;">Select a topic</option>
+                <option value="air" style="background:#0A1628;">Air Freight</option>
+                <option value="ocean" style="background:#0A1628;">Ocean Freight</option>
+                <option value="railway" style="background:#0A1628;">Railway Freight</option>
+                <option value="warehousing" style="background:#0A1628;">Warehousing</option>
+                <option value="customs" style="background:#0A1628;">Customs Clearance</option>
+                <option value="other" style="background:#0A1628;">Other</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.4rem;">Your Message *</label>
+            <textarea name="message" required placeholder="Tell us about your shipment requirements, cargo details, origin and destination..." rows="6" style="width:100%;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:0.85rem 1rem;color:#F0F4FF;font-size:0.95rem;outline:none;resize:vertical;min-height:140px;font-family:Barlow,sans-serif;transition:border-color 0.3s;" onfocus="this.style.borderColor='#FF6B35'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'"></textarea>
+          </div>
+          <button type="submit" style="background:linear-gradient(135deg,#FF6B35,#FF4500);color:white;border:none;padding:1rem 2rem;border-radius:8px;font-family:Barlow Condensed,sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:2px;cursor:pointer;box-shadow:0 4px 15px rgba(255,107,53,0.4),inset 0 1px 0 rgba(255,255,255,0.2);transition:all 0.3s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">SUBMIT MESSAGE →</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div style="max-width:1100px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <p style="color:rgba(255,255,255,0.35);font-size:0.8rem;">©2026 Glide Vault Logistics. All Rights Reserved.</p>
+      <p style="color:rgba(255,255,255,0.35);font-size:0.8rem;">info@glidevaultlogistics.com</p>
+    </div>
+  </footer>
+
+  
+<script>
+function openMenu(){document.getElementById("sideMenu").classList.add("open");document.getElementById("overlay").classList.add("show");}
+function closeMenu(){document.getElementById("sideMenu").classList.remove("open");document.getElementById("overlay").classList.remove("show");}
+</script></body>
+</html>

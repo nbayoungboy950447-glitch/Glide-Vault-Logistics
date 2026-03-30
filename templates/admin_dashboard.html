@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard | Glide Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Space+Mono:wght@400&family=Barlow:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080C12;--surface:#0F1520;--card:#141C2B;--blue:#1B6EF3;--blue-light:#4D8FF7;--orange:#FF6B35;--green:#22C55E;--red:#EF4444;--white:#F0F4FF;--gray:#6B7A99;--border:rgba(27,110,243,0.15);}
+    ,::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;}
+    .sidebar{position:fixed;top:0;left:0;bottom:0;width:240px;background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.5rem;display:flex;flex-direction:column;}
+    .sidebar-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:2px;margin-bottom:0.3rem;}
+    .sidebar-logo span{color:var(--orange);}
+    .sidebar-sub{color:var(--gray);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:2.5rem;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:0.5rem;flex:1;}
+    .sidebar-nav a{color:var(--gray);text-decoration:none;padding:0.7rem 1rem;border-radius:8px;font-size:0.9rem;transition:all 0.2s;display:flex;align-items:center;gap:0.7rem;}
+    .sidebar-nav a:hover,.sidebar-nav a.active{background:rgba(255,107,53,0.1);color:var(--white);border:1px solid rgba(255,107,53,0.2);}
+    .logout{color:var(--gray);text-decoration:none;padding:0.7rem 1rem;border-radius:8px;font-size:0.85rem;transition:all 0.2s;display:flex;align-items:center;gap:0.7rem;margin-top:auto;}
+    .logout:hover{background:rgba(239,68,68,0.1);color:var(--red);}
+    .main{margin-left:240px;padding:2.5rem;}
+    .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;}
+    .page-header h1{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;}
+    .btn-create{background:var(--orange);color:white;text-decoration:none;padding:0.7rem 1.5rem;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:1px;transition:background 0.3s;}
+    .btn-create:hover{background:#ff8555;}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem;}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.2rem 1.5rem;}
+    .stat-card .s-num{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;color:var(--orange);}
+    .stat-card .s-label{color:var(--gray);font-size:0.8rem;letter-spacing:1px;text-transform:uppercase;margin-top:0.2rem;}
+    .flash{padding:0.8rem 1.2rem;border-radius:8px;margin-bottom:1.5rem;font-size:0.9rem;}
+    .flash.success{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:var(--green);}
+    .flash.error{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:var(--red);}
+    .table-wrapper{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+    .table-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+    .table-header h2{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:1px;}
+    .search-input{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:0.5rem 1rem;color:var(--white);font-size:0.9rem;outline:none;width:250px;}
+    .search-input:focus{border-color:var(--orange);}
+    table{width:100%;border-collapse:collapse;}
+    thead tr{background:var(--card);}
+    th{padding:0.8rem 1.2rem;text-align:left;font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--gray);font-weight:600;}
+    tbody tr{border-top:1px solid var(--border);transition:background 0.2s;}
+    tbody tr:hover{background:rgba(255,107,53,0.03);}
+    td{padding:1rem 1.2rem;font-size:0.9rem;vertical-align:middle;}
+    .tracking-code{font-family:'Space Mono',monospace;font-size:0.8rem;color:var(--orange);}
+    .status-pill{display:inline-flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;border-radius:50px;font-size:0.75rem;font-weight:600;white-space:nowrap;}
+    .s-delivered{background:rgba(34,197,94,0.12);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
+    .s-transit{background:rgba(27,110,243,0.12);color:var(--blue-light);border:1px solid rgba(27,110,243,0.3);}
+    .s-hold{background:rgba(255,107,53,0.12);color:var(--orange);border:1px solid rgba(255,107,53,0.3);}
+    .s-default{background:rgba(107,122,153,0.12);color:var(--gray);border:1px solid rgba(107,122,153,0.3);}
+    .action-btns{display:flex;gap:0.5rem;}
+    .btn-edit{background:rgba(27,110,243,0.1);color:var(--blue-light);border:1px solid rgba(27,110,243,0.2);padding:0.4rem 0.9rem;border-radius:6px;text-decoration:none;font-size:0.8rem;font-weight:600;transition:all 0.2s;}
+    .btn-edit:hover{background:var(--blue);color:white;}
+    .btn-view{background:rgba(107,122,153,0.1);color:var(--gray);border:1px solid rgba(107,122,153,0.2);padding:0.4rem 0.9rem;border-radius:6px;text-decoration:none;font-size:0.8rem;transition:all 0.2s;}
+    .btn-view:hover{background:rgba(107,122,153,0.2);color:var(--white);}
+    .btn-delete{background:rgba(239,68,68,0.1);color:var(--red);border:1px solid rgba(239,68,68,0.2);padding:0.4rem 0.9rem;border-radius:6px;font-size:0.8rem;cursor:pointer;font-weight:600;transition:all 0.2s;}
+    .btn-delete:hover{background:var(--red);color:white;}
+    .empty{padding:4rem;text-align:center;color:var(--gray);}
+    @media(max-width:900px){.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;}table{min-width:700px;}
+      .sidebar{display:none;}
+      .main{margin-left:0;padding:1.5rem;}
+      .stats{grid-template-columns:repeat(2,1fr);}
+      .shipment-table{font-size:0.8rem;}
+      .shipment-table th,.shipment-table td{padding:0.6rem 0.8rem;}
+      .page-header{flex-direction:column;gap:1rem;align-items:flex-start;}
+      .btn-new{width:100%;text-align:center;}
+    }
+    @media(max-width:480px){
+      .main{padding:1rem;}
+      .stats{grid-template-columns:1fr 1fr;}
+      .stat-card{padding:1rem;}
+      .shipment-table th:nth-child(3),
+      .shipment-table td:nth-child(3),
+      .shipment-table th:nth-child(4),
+      .shipment-table td:nth-child(4){display:none;}
+      .stat-num{font-size:1.8rem;}
+    }
+  </style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-logo">GLIDE<span>VAULT</span></div>
+    <div class="sidebar-sub">Admin Portal</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/dashboard" class="active"><span>📦</span> All Shipments</a>
+      <a href="/admin/create"><span>➕</span> New Shipment</a>
+      <a href="/" target="_blank"><span>🌐</span> View Website</a>
+      <a href="/track" target="_blank"><span>🔍</span> Track Portal</a>
+    </nav>
+    <a href="/admin/logout" class="logout"><span>🚪</span> Logout</a>
+  </div>
+  <div class="main">
+    <div class="page-header">
+      <h1>SHIPMENTS</h1>
+      <a href="/admin/create" class="btn-create">+ NEW SHIPMENT</a>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}<div class="flash {{ cat }}">{{ msg }}</div>{% endfor %}
+    {% endwith %}
+    {% set delivered = shipments|selectattr('status','equalto','Delivered')|list|length %}
+    {% set in_transit = shipments|selectattr('status','equalto','In Transit')|list|length %}
+    {% set on_hold = shipments|selectattr('status','equalto','On Hold')|list|length %}
+    <div class="stats">
+      <div class="stat-card"><div class="s-num">{{ shipments|length }}</div><div class="s-label">Total Shipments</div></div>
+      <div class="stat-card"><div class="s-num" style="color:var(--blue-light)">{{ in_transit }}</div><div class="s-label">In Transit</div></div>
+      <div class="stat-card"><div class="s-num" style="color:var(--green)">{{ delivered }}</div><div class="s-label">Delivered</div></div>
+      <div class="stat-card"><div class="s-num" style="color:var(--orange)">{{ on_hold }}</div><div class="s-label">On Hold</div></div>
+    </div>
+    <div class="table-wrapper">
+      <div class="table-header">
+        <h2>ALL SHIPMENTS</h2>
+        <input class="search-input" type="text" placeholder="Search shipments..." id="searchInput" onkeyup="filterTable()"/>
+      </div>
+      <table id="shipmentsTable">
+        <thead>
+          <tr>
+            <th>Tracking</th><th>Type</th><th>Sender</th><th>Receiver</th><th>Route</th><th>Status</th><th>Est. Delivery</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% if shipments %}
+            {% for s in shipments %}
+            <tr>
+              <td><span class="tracking-code">{{ s.tracking_number }}</span></td>
+              <td>{{ '✈️' if s.freight_type == 'Air Freight' else '🚢' }}</td>
+              <td>{{ s.sender_name }}</td>
+              <td>{{ s.receiver_name }}</td>
+              <td style="color:var(--gray);font-size:0.85rem;">{{ s.origin }} → {{ s.destination }}</td>
+              <td>
+                {% set st = s.status %}
+                {% if st == 'Delivered' %}<span class="status-pill s-delivered">{{ st }}</span>
+                {% elif 'Transit' in st or 'Clearance' in st or 'Delivery' in st %}<span class="status-pill s-transit">{{ st }}</span>
+                {% elif 'Hold' in st %}<span class="status-pill s-hold">{{ st }}</span>
+                {% else %}<span class="status-pill s-default">{{ st }}</span>{% endif %}
+              </td>
+              <td style="color:var(--gray);font-size:0.85rem;">{{ s.estimated_delivery }}</td>
+              <td>
+                <div class="action-btns">
+                  <a href="/shipment/{{ s.tracking_number }}" target="_blank" class="btn-view">View</a>
+                  <a href="/admin/edit/{{ s.tracking_number }}" class="btn-edit">Edit</a>
+                  <form method="POST" action="/admin/delete/{{ s.tracking_number }}" style="display:inline;" onsubmit="return confirm('Delete this shipment?')">
+                    <button type="submit" class="btn-delete">Del</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          {% else %}
+            <tr><td colspan="8" class="empty">No shipments yet. <a href="/admin/create" style="color:var(--orange)">Create your first shipment →</a></td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    function filterTable(){
+      const input=document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('#shipmentsTable tbody tr').forEach(row=>{
+        row.style.display=row.textContent.toLowerCase().includes(input)?'':'none';
+      });
+    }
+  </script>
+</body>
+</html>

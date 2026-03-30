@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Warehousing | Glide Vault Logistics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#080C12;color:#F0F4FF;font-family:'Barlow',sans-serif;}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:linear-gradient(135deg,#0A1628,#0D2144);border-bottom:2px solid rgba(255,255,255,0.1);box-shadow:0 4px 30px rgba(0,0,0,0.5);}
+    .back-btn{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.9rem;letter-spacing:1px;display:flex;align-items:center;gap:0.5rem;transition:color 0.3s;}
+    .back-btn:hover{color:#FF6B35;}
+    .hero-banner{margin-top:64px;height:420px;position:relative;overflow:hidden;}
+    .hero-banner img{width:100%;height:100%;object-fit:cover;}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,18,0.3) 0%,rgba(8,12,18,0.85) 100%);}
+    .hero-content{position:absolute;bottom:3rem;left:4rem;}
+    .hero-tag{font-size:0.75rem;letter-spacing:3px;text-transform:uppercase;color:#FF6B35;margin-bottom:0.8rem;font-weight:700;}
+    .hero-title{font-family:'Barlow Condensed',sans-serif;font-size:3.5rem;font-weight:800;}
+    .content{max-width:1100px;margin:0 auto;padding:4rem;}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:4rem;align-items:center;}
+    .grid img{width:100%;height:300px;object-fit:cover;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.4);}
+    .grid h2{font-family:'Barlow Condensed',sans-serif;font-size:2.2rem;font-weight:800;margin-bottom:1rem;color:#F0F4FF;}
+    .grid p{color:rgba(255,255,255,0.7);line-height:1.8;margin-bottom:1rem;font-size:1rem;}
+    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:1rem;}
+    .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1.5rem;backdrop-filter:blur(10px);transition:all 0.3s;}
+    .card:hover{border-color:#FF6B35;transform:translateY(-4px);}
+    .card h3{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:#FF6B35;margin-bottom:0.5rem;}
+    .card p{color:rgba(255,255,255,0.6);font-size:0.9rem;line-height:1.6;}
+    .footer-bar{background:rgba(10,22,40,0.9);border-top:1px solid rgba(255,255,255,0.1);padding:1.5rem 4rem;text-align:center;color:rgba(255,255,255,0.35);font-size:0.8rem;margin-top:4rem;}
+    @media(max-width:768px){
+      nav{padding:0.8rem 1.2rem;}
+      .hero-banner{height:280px;}
+      .hero-content{left:1.5rem;bottom:1.5rem;}
+      .hero-title{font-size:2.2rem;}
+      .hero-tag{font-size:0.7rem;}
+      .content{padding:2rem 1.2rem;}
+      .grid{grid-template-columns:1fr;}
+      .grid img{height:220px;}
+      .features{grid-template-columns:1fr;}
+      .feature-card{padding:1.2rem;}
+      .back-btn{font-size:0.8rem;}
+    }
+    @media(max-width:480px){
+      .hero-banner{height:220px;}
+      .hero-title{font-size:1.8rem;}
+      .content{padding:1.5rem 1rem;}
+      .feature-card h3{font-size:1rem;}
+    }
+  </style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <nav>
+    <a href="/" style="display:flex;align-items:center;gap:0.7rem;text-decoration:none;">
+      <div style="width:34px;height:34px;background:linear-gradient(135deg,#1B6EF3,#0D2144);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+      </div>
+      <div>
+        <div style="font-family:Barlow Condensed,sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:2px;color:#F0F4FF;">GLIDE<span style="color:#FF6B35;">VAULT</span></div>
+        <div style="font-size:0.55rem;letter-spacing:3px;color:rgba(255,255,255,0.5);text-transform:uppercase;">LOGISTICS</div>
+      </div>
+    </a>
+    <a href="/" class="back-btn">← Back to Home</a>
+  </nav>
+
+  <div class="hero-banner">
+    <img src="https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Warehousing"/>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Services</div>
+      <h1 class="hero-title">Warehousing</h1>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="grid">
+      <div>
+        <h2>Secure Storage & Warehousing</h2>
+        <p>Our state-of-the-art warehousing facilities provide secure, climate-controlled storage for all types of cargo. Strategically located near major ports and airports for optimal logistics efficiency.</p>
+        <p>From short-term storage to long-term inventory management, our warehouse solutions are designed to keep your cargo safe, organized, and ready for distribution at any time.</p>
+      </div>
+      <img src="https://images.pexels.com/photos/236705/pexels-photo-236705.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Warehousing"/>
+    </div>
+    <div class="features">
+      <div class="card"><h3>Climate Controlled</h3><p>Temperature-regulated storage for sensitive goods.</p></div><div class="card"><h3>24/7 Security</h3><p>CCTV surveillance and on-site security personnel.</p></div><div class="card"><h3>Inventory Management</h3><p>Real-time stock tracking and reporting systems.</p></div><div class="card"><h3>Flexible Terms</h3><p>Short and long-term storage options available.</p></div><div class="card"><h3>Port Proximity</h3><p>Located near major ports for fast turnaround.</p></div><div class="card"><h3>Pick & Pack</h3><p>Order fulfillment and packing services included.</p></div>
+    </div>
+  </div>
+
+  <div class="footer-bar">©2026 Glide Vault Logistics. All Rights Reserved.</div>
+</body>
+</html>

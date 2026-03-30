@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ 'Create' if mode=='create' else 'Edit' }} Shipment | Glide Vault</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080C12;--surface:#0F1520;--card:#141C2B;--blue:#1B6EF3;--blue-light:#4D8FF7;--orange:#FF6B35;--green:#22C55E;--red:#EF4444;--white:#F0F4FF;--gray:#6B7A99;--border:rgba(27,110,243,0.15);}
+    ,::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;}
+    .sidebar{position:fixed;top:0;left:0;bottom:0;width:240px;background:var(--surface);border-right:1px solid var(--border);padding:2rem 1.5rem;display:flex;flex-direction:column;}
+    .sidebar-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.4rem;letter-spacing:2px;margin-bottom:0.3rem;}
+    .sidebar-logo span{color:var(--orange);}
+    .sidebar-sub{color:var(--gray);font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:2.5rem;}
+    .sidebar-nav{display:flex;flex-direction:column;gap:0.5rem;flex:1;}
+    .sidebar-nav a{color:var(--gray);text-decoration:none;padding:0.7rem 1rem;border-radius:8px;font-size:0.9rem;transition:all 0.2s;display:flex;align-items:center;gap:0.7rem;}
+    .sidebar-nav a:hover,.sidebar-nav a.active{background:rgba(255,107,53,0.1);color:var(--white);border:1px solid rgba(255,107,53,0.2);}
+    .logout{color:var(--gray);text-decoration:none;padding:0.7rem 1rem;border-radius:8px;font-size:0.85rem;transition:all 0.2s;display:flex;align-items:center;gap:0.7rem;margin-top:auto;}
+    .logout:hover{background:rgba(239,68,68,0.1);color:var(--red);}
+    .main{margin-left:240px;padding:2.5rem;max-width:860px;}
+    .page-header{margin-bottom:2rem;}
+    .page-header h1{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:800;}
+    .page-header p{color:var(--gray);margin-top:0.3rem;}
+    .form-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem;margin-bottom:1.5rem;}
+    .form-card h2{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:1px;color:var(--gray);text-transform:uppercase;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:1px solid var(--border);}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+    .form-group{display:flex;flex-direction:column;gap:0.5rem;}
+    .form-group.full{grid-column:1/-1;}
+    label{font-size:0.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray);}
+    input,select,textarea{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem 1rem;color:var(--white);font-family:'Barlow',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.3s;width:100%;}
+    input:focus,select:focus,textarea:focus{border-color:var(--orange);}
+    input::placeholder,textarea::placeholder{color:var(--gray);}
+    select option{background:var(--card);}
+    textarea{resize:vertical;min-height:80px;}
+    .status-update-box{background:rgba(255,107,53,0.05);border:1px solid rgba(255,107,53,0.15);border-radius:8px;padding:1rem;margin-top:1rem;}
+    .status-update-box p{color:var(--gray);font-size:0.85rem;}
+    .form-actions{display:flex;gap:1rem;margin-top:1rem;}
+    .btn-submit{background:var(--orange);color:white;border:none;padding:0.9rem 2.5rem;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.1rem;letter-spacing:1px;cursor:pointer;transition:background 0.3s;}
+    .btn-submit:hover{background:#ff8555;}
+    .btn-cancel{background:transparent;color:var(--gray);border:1px solid var(--border);padding:0.9rem 2rem;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;text-decoration:none;transition:all 0.3s;}
+    .btn-cancel:hover{border-color:var(--white);color:var(--white);}
+    .tracking-display{font-family:monospace;font-size:1.1rem;color:var(--orange);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:0.8rem 1rem;letter-spacing:2px;}
+    .photo-preview{display:flex;gap:0.5rem;margin-top:0.5rem;flex-wrap:wrap;}
+    .photo-preview img{width:80px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--border);}
+    @media(max-width:900px){
+      .sidebar{display:none;}
+      .main{margin-left:0;padding:1.5rem;}
+      .form-grid{grid-template-columns:1fr;}
+      .form-card{padding:1.2rem;}
+      .page-header h1{font-size:1.5rem;}
+      .btn-submit{width:100%;padding:0.9rem;}
+      .btn-cancel{width:100%;text-align:center;padding:0.9rem;}
+      .form-actions{flex-direction:column;}
+      .tracking-display{font-size:0.9rem;}
+    }
+    @media(max-width:480px){
+      .main{padding:1rem;}
+      .form-card{padding:1rem;}
+      input,select,textarea{font-size:0.9rem;padding:0.7rem 0.8rem;}
+      .page-header h1{font-size:1.2rem;}
+    }
+  </style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-logo">GLIDE<span>VAULT</span></div>
+    <div class="sidebar-sub">Admin Portal</div>
+    <nav class="sidebar-nav">
+      <a href="/admin/dashboard"><span>📦</span> All Shipments</a>
+      <a href="/admin/create" class="{{ 'active' if mode=='create' }}"><span>➕</span> New Shipment</a>
+      <a href="/" target="_blank"><span>🌐</span> View Website</a>
+      <a href="/track" target="_blank"><span>🔍</span> Track Portal</a>
+    </nav>
+    <a href="/admin/logout" class="logout"><span>🚪</span> Logout</a>
+  </div>
+  <div class="main">
+    <div class="page-header">
+      <h1>{{ 'CREATE NEW SHIPMENT' if mode=='create' else 'EDIT SHIPMENT' }}</h1>
+      {% if mode=='edit' and shipment %}<p>Editing: <span style="color:var(--orange);font-family:monospace;">{{ shipment.tracking_number }}</span></p>{% endif %}
+    </div>
+    <form method="POST">
+      {% if mode=='edit' and shipment %}
+      <div class="form-card">
+        <h2>Tracking Number</h2>
+        <div class="tracking-display">{{ shipment.tracking_number }}</div>
+      </div>
+      {% endif %}
+      <div class="form-card">
+        <h2>Freight Information</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Freight Type</label>
+            <select name="freight_type">
+              <option value="Air Freight" {{ 'selected' if shipment and shipment.freight_type=='Air Freight' }}>✈️ Air Freight</option>
+              <option value="Sea Freight" {{ 'selected' if shipment and shipment.freight_type=='Sea Freight' }}>🚢 Sea Freight</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Weight (e.g. 25kg)</label>
+            <input type="text" name="weight" placeholder="e.g. 25kg" value="{{ shipment.weight if shipment else '' }}"/>
+          </div>
+          <div class="form-group">
+            <label>Origin</label>
+            <input type="text" name="origin" placeholder="e.g. Accra, Ghana" value="{{ shipment.origin if shipment else '' }}" required/>
+          </div>
+          <div class="form-group">
+            <label>Destination</label>
+            <input type="text" name="destination" placeholder="e.g. London, UK" value="{{ shipment.destination if shipment else '' }}" required/>
+          </div>
+          <div class="form-group">
+            <label>Estimated Delivery</label>
+            <input type="text" name="estimated_delivery" placeholder="e.g. 2024-04-15" value="{{ shipment.estimated_delivery if shipment else '' }}"/>
+          </div>
+          <div class="form-group">
+            <label>Current Location</label>
+            <input type="text" name="current_location" placeholder="e.g. Dubai Airport" value="{{ shipment.current_location if shipment else '' }}"/>
+          </div>
+          <div class="form-group full">
+            <label>Cargo Description</label>
+            <input type="text" name="description" placeholder="e.g. Electronics, clothing" value="{{ shipment.description if shipment else '' }}"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-card">
+        <h2>Sender Details</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Sender Name</label>
+            <input type="text" name="sender_name" placeholder="Full name or company" value="{{ shipment.sender_name if shipment else '' }}" required/>
+          </div>
+          <div class="form-group">
+            <label>Sender Address</label>
+            <input type="text" name="sender_address" placeholder="Full address" value="{{ shipment.sender_address if shipment else '' }}"/>
+          </div>
+        </div>
+      </div>
+      <div class="form-card">
+        <h2>Receiver Details</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Receiver Name</label>
+            <input type="text" name="receiver_name" placeholder="Full name or company" value="{{ shipment.receiver_name if shipment else '' }}" required/>
+          </div>
+          <div class="form-group">
+            <label>Receiver Address</label>
+            <input type="text" name="receiver_address" placeholder="Full address" value="{{ shipment.receiver_address if shipment else '' }}"/>
+          </div>
+        </div>
+      </div>
+      {% if mode=='edit' %}
+      <div class="form-card">
+        <h2>Status Update</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Current Status</label>
+            <select name="status">
+              {% for opt in status_options %}
+              <option value="{{ opt }}" {{ 'selected' if shipment and shipment.status==opt }}>{{ opt }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status Note (optional)</label>
+            <input type="text" name="status_note" placeholder="e.g. Arrived at sorting facility"/>
+            </div>
+            <div class="form-group full">
+                <label>📍 Current Location <span style="color:#FF6B35;font-size:0.8rem;">(updates map dot — e.g. Port of Antwerp, Belgium)</span></label>
+                <input type="text" name="current_location" placeholder="e.g. Port of Antwerp, Belgium" value="{{ shipment.current_location if shipment else '' }}"/>
+          </div>
+        </div>
+        <div class="status-update-box">
+          <p>💡 Changing the status adds a new entry to the shipment timeline visible to clients.</p>
+        </div>
+      </div>
+      {% endif %}
+      <div class="form-card">
+        <h2>Shipment Photos (Image URLs)</h2>
+        <p style="color:var(--gray);font-size:0.85rem;margin-bottom:1.2rem;">Paste direct image URLs from Google Drive, Imgur, Cloudinary etc.</p>
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Photo 1 URL</label>
+            <input type="url" name="photo_url1" placeholder="https://..." value="{{ shipment.photo_url1 if shipment else '' }}" id="p1" oninput="previewPhoto(this,'prev1')"/>
+            <div class="photo-preview"><img id="prev1" src="{{ shipment.photo_url1 if shipment and shipment.photo_url1 else '' }}" style="{{ '' if shipment and shipment.photo_url1 else 'display:none' }}" onerror="this.style.display='none'"/></div>
+          </div>
+          <div class="form-group full">
+            <label>Photo 2 URL</label>
+            <input type="url" name="photo_url2" placeholder="https://..." value="{{ shipment.photo_url2 if shipment else '' }}" oninput="previewPhoto(this,'prev2')"/>
+            <div class="photo-preview"><img id="prev2" src="{{ shipment.photo_url2 if shipment and shipment.photo_url2 else '' }}" style="{{ '' if shipment and shipment.photo_url2 else 'display:none' }}" onerror="this.style.display='none'"/></div>
+          </div>
+          <div class="form-group full">
+            <label>Photo 3 URL</label>
+            <input type="url" name="photo_url3" placeholder="https://..." value="{{ shipment.photo_url3 if shipment else '' }}" oninput="previewPhoto(this,'prev3')"/>
+            <div class="photo-preview"><img id="prev3" src="{{ shipment.photo_url3 if shipment and shipment.photo_url3 else '' }}" style="{{ '' if shipment and shipment.photo_url3 else 'display:none' }}" onerror="this.style.display='none'"/></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-card">
+        <h2>Notes</h2>
+        <div class="form-group">
+          <label>Notes (visible to client)</label>
+          <textarea name="notes" placeholder="Any additional information for the client...">{{ shipment.notes if shipment else '' }}</textarea>
+        </div>
+      </div>
+      
+      <div class="form-card" style="border:1px solid rgba(239,68,68,0.3);background:rgba(239,68,68,0.03);">
+        <h2 style="color:#EF4444;">🔴 Shipment Hold Management</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Hold Type</label>
+            <select name="hold_type">
+              <option value="">-- No Hold --</option>
+              <option value="Customs Duty Payment Required" {{ 'selected' if shipment and shipment.get('hold_type') == 'Customs Duty Payment Required' }}>Customs Duty Payment Required</option>
+              <option value="Security Inspection" {{ 'selected' if shipment and shipment.get('hold_type') == 'Security Inspection' }}>Security Inspection</option>
+              <option value="Documentation Incomplete" {{ 'selected' if shipment and shipment.get('hold_type') == 'Documentation Incomplete' }}>Documentation Incomplete</option>
+              <option value="Regulatory Clearance Pending" {{ 'selected' if shipment and shipment.get('hold_type') == 'Regulatory Clearance Pending' }}>Regulatory Clearance Pending</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Hold Amount (if applicable)</label>
+            <input type="text" name="hold_amount" placeholder="e.g. USD 2,500" value="{{ shipment.hold_amount if shipment and shipment.get('hold_amount') else '' }}"/>
+          </div>
+          <div class="form-group full">
+            <label>Hold Message to Client</label>
+            <textarea name="hold_message" placeholder="e.g. Your shipment requires customs duty payment of USD 2,500 before release. Please contact your agent immediately.">{{ shipment.hold_message if shipment and shipment.get('hold_message') else '' }}</textarea>
+          </div>
+          <div class="form-group">
+            <label>Hold Reference Number</label>
+            <input type="text" name="hold_reference" placeholder="e.g. CUST-2024-00892" value="{{ shipment.hold_reference if shipment and shipment.get('hold_reference') else '' }}"/>
+          </div>
+          <div class="form-group">
+            <label>Payment Deadline</label>
+            <input type="text" name="hold_deadline" placeholder="e.g. 2026-04-05" value="{{ shipment.hold_deadline if shipment and shipment.get('hold_deadline') else '' }}"/>
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:8px;padding:1rem;margin-top:1rem;">
+          <p style="color:#EF4444;font-size:0.85rem;">⚠️ Setting a hold type will display a red alert banner on the client tracking page. Leave blank to remove hold.</p>
+        </div>
+      </div>
+
+      <div class="form-card" style="border:1px solid rgba(27,110,243,0.3);">
+        <h2 style="color:var(--blue-light);">TIMELINE — PORT UPDATES</h2>
+        <p style="color:var(--gray);font-size:0.85rem;margin-bottom:1.5rem;">Add port stops and events. Each save adds to the live timeline.</p>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Port / Location Name</label>
+            <input type="text" name="new_port" placeholder="e.g. Port of Felixstowe, United Kingdom"/>
+          </div>
+          <div class="form-group">
+            <label>Mark this port as</label>
+            <select name="port_completed">
+              <option value="true">Completed</option>
+              <option value="false">In Progress</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Event Name</label>
+            <input type="text" name="new_event_name" placeholder="e.g. Cargo Pickup, Vessel Departure"/>
+          </div>
+          <div class="form-group">
+            <label>Event Date and Time</label>
+            <input type="text" name="new_event_time" placeholder="e.g. 2026-04-01 14:30"/>
+          </div>
+          <div class="form-group full">
+            <label>Event Note (optional)</label>
+            <input type="text" name="new_event_note" placeholder="e.g. Container sealed and cleared"/>
+          </div>
+        </div>
+        <div style="background:rgba(27,110,243,0.05);border:1px solid rgba(27,110,243,0.15);border-radius:8px;padding:1rem;margin-top:1rem;">
+          <p style="color:var(--blue-light);font-size:0.85rem;">💡 If port already exists, event is added under it. If new port, a new stop is created.</p>
+        </div>
+      </div>
+<div class="form-actions">
+        <button type="submit" class="btn-submit">{{ 'CREATE SHIPMENT' if mode=='create' else 'SAVE CHANGES' }}</button>
+        <a href="/admin/dashboard" class="btn-cancel">Cancel</a>
+      </div>
+    </form>
+  </div>
+  <script>
+    function previewPhoto(input,previewId){
+      const img=document.getElementById(previewId);
+      if(input.value){img.src=input.value;img.style.display='block';img.onerror=()=>img.style.display='none';}
+      else{img.style.display='none';}
+    }
+  </script>
+</body>
+</html>

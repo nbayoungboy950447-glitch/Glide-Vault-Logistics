@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Track Shipment | Glide Vault Logistics</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080C12;--surface:#0F1520;--card:#141C2B;--blue:#1B6EF3;--blue-light:#4D8FF7;--orange:#FF6B35;--white:#F0F4FF;--gray:#6B7A99;--border:rgba(27,110,243,0.15);}
+    ,::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;background-image:url('https://images.pexels.com/photos/1427541/pexels-photo-1427541.jpeg?auto=compress&cs=tinysrgb&w=1200');background-size:cover;background-position:center;background-attachment:fixed;}
+    nav{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:linear-gradient(135deg,rgba(10,22,40,0.95),rgba(13,33,68,0.95));backdrop-filter:blur(20px);border-bottom:2px solid rgba(255,255,255,0.1);z-index:100;}
+    .nav-logo{font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:1.5rem;letter-spacing:2px;color:var(--white);text-decoration:none;}
+    .nav-logo span{color:var(--orange);}
+    .back-link{color:var(--gray);text-decoration:none;font-size:0.85rem;letter-spacing:1px;text-transform:uppercase;transition:color 0.3s;}
+    .back-link:hover{color:var(--white);}
+    .track-container{margin-top:6rem;width:100%;max-width:600px;position:relative;z-index:1;}
+    .track-title{font-family:'Barlow Condensed',sans-serif;font-size:3rem;font-weight:800;text-align:center;margin-bottom:0.5rem;}
+    .track-sub{color:var(--gray);text-align:center;margin-bottom:2.5rem;}
+    .flash{padding:0.8rem 1.2rem;border-radius:6px;margin-bottom:1rem;font-size:0.9rem;}
+    .flash.error{background:rgba(255,59,48,0.1);border:1px solid rgba(255,59,48,0.3);color:#FF6B6B;}
+    .track-form{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.15);border-radius:16px;padding:2.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.1);overflow:hidden;}
+    .form-group{margin-bottom:1.5rem;}
+    label{display:block;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--gray);margin-bottom:0.6rem;}
+    input{width:100%;max-width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;color:var(--white);font-family:'Space Mono',monospace;font-size:1.1rem;outline:none;transition:border-color 0.3s;letter-spacing:2px;}
+    input:focus{border-color:var(--orange);}
+    input::placeholder{color:var(--gray);font-size:0.9rem;letter-spacing:1px;}
+    .btn{width:100%;background:var(--orange);color:white;border:none;padding:1rem;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1.2rem;letter-spacing:2px;cursor:pointer;transition:all 0.3s;}
+    .btn:hover{background:#ff8555;}
+    .example{text-align:center;margin-top:1rem;color:var(--gray);font-size:0.8rem;}
+    .example span{color:var(--orange);font-family:'Space Mono',monospace;}
+    @media(max-width:768px){
+      nav{padding:0.8rem 1.2rem;}
+      .track-container{margin-top:5rem;padding:0 0.5rem;width:100%;}
+      .track-title{font-size:2rem;}
+      .track-form{padding:1.2rem;}
+      input{font-size:0.95rem;}
+    }
+    @media(max-width:480px){
+      body{padding:1rem 0.75rem;}
+      .track-container{padding:0;}
+      .track-form{padding:1rem;border-radius:12px;}
+    }
+  </style>
+<link rel="icon" type="image/png" href="/static/favicon.png"/><link rel="apple-touch-icon" href="/static/favicon.png"/><meta property="og:image" content="/static/favicon.png"/></head>
+<body>
+  <div style="position:fixed;inset:0;background:rgba(5,10,20,0.75);z-index:0;pointer-events:none;backdrop-filter:blur(2px);"></div>
+  <nav style="z-index:100;">
+    <a href="/" class="nav-logo">GLIDE<span>VAULT</span></a>
+    <a href="/" class="back-link">← Back to Home</a>
+  </nav>
+  <div class="track-container">
+    <h1 class="track-title">TRACK YOUR SHIPMENT</h1>
+    <p class="track-sub">Enter your tracking number to get real-time status updates</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for cat, msg in messages %}
+        <div class="flash {{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    {% endwith %}
+    <div class="track-form">
+      <form method="POST">
+        <div class="form-group">
+          <label>Tracking Number</label>
+          <input type="text" name="tracking_number" placeholder="e.g. GVL240329ABCD" required autofocus/>
+        </div>
+        <button class="btn" type="submit">TRACK SHIPMENT →</button>
+      </form>
+      <p class="example">Format: <span>GVL</span> followed by date and code</p>
+    </div>
+  </div>
+</body>
+</html>
